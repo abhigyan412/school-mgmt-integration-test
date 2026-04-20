@@ -1,12 +1,12 @@
 # School Management System — Skill Test Solution
 
-## 👨‍💻 Candidate Submission
+##  Candidate Submission
 
 This document outlines all changes made to complete the skill test requirements.
 
 ---
 
-## ✅ What Was Implemented
+##  What Was Implemented
 
 ### Task 1 — Student CRUD Operations (Node.js Backend)
 
@@ -100,7 +100,7 @@ This was implemented correctly in `api_client.py` with automatic re-authenticati
 
 ---
 
-## 🚀 Running the Python Service
+##  Running the Python Service
 
 ### Prerequisites
 - Node.js backend running on `http://localhost:5007`
@@ -125,7 +125,7 @@ curl http://localhost:8000/api/v1/students/1/report --output report.pdf
 
 ---
 
-## 🛠️ Tech Stack (Python Service)
+##  Tech Stack (Python Service)
 
 | Library | Purpose |
 |---|---|
@@ -139,7 +139,7 @@ curl http://localhost:8000/api/v1/students/1/report --output report.pdf
 
 ---
 
-## 📸 Sample Output
+##  Sample Output
 
 See `samples/` folder for:
 - Screenshot of Swagger UI with 200 OK response
@@ -147,7 +147,7 @@ See `samples/` folder for:
 
 ---
 
-## 🔑 Demo Credentials
+##  Demo Credentials
 
 ```
 Email:    admin@school-admin.com
