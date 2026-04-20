@@ -1,4 +1,4 @@
-const { ApiError, sendAccountVerificationEmail } = require("../../utils");
+const { ApiError, sendAccountVerificationEmail, processDBRequest } = require("../../utils");
 const { findAllStudents, findStudentDetail, findStudentToSetStatus, addOrUpdateStudent } = require("./students-repository");
 const { findUserById } = require("../../shared/repository");
 
@@ -14,18 +14,15 @@ const getAllStudents = async (payload) => {
     if (students.length <= 0) {
         throw new ApiError(404, "Students not found");
     }
-
     return students;
 }
 
 const getStudentDetail = async (id) => {
     await checkStudentId(id);
-
     const student = await findStudentDetail(id);
     if (!student) {
         throw new ApiError(404, "Student not found");
     }
-
     return student;
 }
 
@@ -37,7 +34,6 @@ const addNewStudent = async (payload) => {
         if (!result.status) {
             throw new ApiError(500, result.message);
         }
-
         try {
             await sendAccountVerificationEmail({ userId: result.userId, userEmail: payload.email });
             return { message: ADD_STUDENT_AND_EMAIL_SEND_SUCCESS };
@@ -54,20 +50,27 @@ const updateStudent = async (payload) => {
     if (!result.status) {
         throw new ApiError(500, result.message);
     }
-
     return { message: result.message };
 }
 
 const setStudentStatus = async ({ userId, reviewerId, status }) => {
     await checkStudentId(userId);
-
     const affectedRow = await findStudentToSetStatus({ userId, reviewerId, status });
     if (affectedRow <= 0) {
         throw new ApiError(500, "Unable to disable student");
     }
-
     return { message: "Student status changed successfully" };
 }
+
+const deleteStudent = async (id) => {
+    await checkStudentId(id);
+    const query = "DELETE FROM users WHERE id = $1";
+    const { rowCount } = await processDBRequest({ query, queryParams: [id] });
+    if (rowCount <= 0) {
+        throw new ApiError(500, "Unable to delete student");
+    }
+    return { message: "Student deleted successfully" };
+};
 
 module.exports = {
     getAllStudents,
@@ -75,4 +78,5 @@ module.exports = {
     addNewStudent,
     setStudentStatus,
     updateStudent,
+    deleteStudent,  
 };

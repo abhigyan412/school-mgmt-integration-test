@@ -56,7 +56,13 @@ const fetchNoticeDetailById = async (id) => {
 };
 
 const addNotice = async (payload) => {
-  const affectedRow = await addNewNotice(payload);
+  const data = {
+    ...payload,
+    status: payload.status ?? 1, 
+    description: payload.description ?? "",
+  };
+
+  const affectedRow = await addNewNotice(data);
   if (affectedRow <= 0) {
     throw new ApiError(500, "Unable to add new notice");
   }
@@ -65,7 +71,12 @@ const addNotice = async (payload) => {
 };
 
 const updateNotice = async (payload) => {
-  const affectedRow = await updateNoticeById(payload);
+  const data = {
+    ...payload,
+    description: payload.description ?? "",
+  };
+
+  const affectedRow = await updateNoticeById(data);
   if (affectedRow <= 0) {
     throw new ApiError(500, "Unable to update notice");
   }
